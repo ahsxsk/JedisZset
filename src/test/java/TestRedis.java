@@ -28,10 +28,16 @@ public class TestRedis {
             redisService.zadd("shike", 100, "地理");
             System.out.println(redisService.zrange("shike", 0, -1));
             System.out.println(redisService.zcard("shike"));
-            String [] str = {"yuwen", "数学"};
+            String [] str = {"数学"};
             redisService.zrem("shike", str);
             System.out.println(redisService.zrange("shike", 0, -1));
             System.out.println(redisService.zcard("shike"));
+            Double score = redisService.zscore("shike", "yuwen");
+            System.out.println("yuwen score: " + score);
+            score = redisService.zscore("shike", "dili");
+            if (score == null) {
+                System.out.println("score dili is null");
+            }
         } catch (RedisException rex) {
             rex.printStackTrace();
         } catch (Exception ex) {

@@ -18,6 +18,8 @@ public interface RedisService {
     Set<String> zrange(String key, long start, long end) throws RedisException;
     /*有序集合,统计*/
     Long zcard(String key) throws RedisException;
+    /*有序集合, 获取指定成员score*/
+    Double zscore(String key, String menber) throws RedisException;
     /*散列, 设置*/
     String hmset(String key, Map<String, String> map) throws RedisException;
     /*散列, 获取*/

@@ -89,6 +89,14 @@ public class RedisServiceImpl {
         return num;
     }
 
+    /**
+     * 获取[start, end)所有成员
+     * @param key
+     * @param start
+     * @param end
+     * @return Set
+     * @throws RedisException
+     */
     public Set<String> zrange(String key, long start, long end) throws RedisException {
         ShardedJedis jedis = this.getRedisPool();
         Set<String> result = new HashSet<String>();
@@ -104,6 +112,27 @@ public class RedisServiceImpl {
         return result;
     }
 
+    /**
+     * 获取指定成员score
+     * @param key
+     * @param member
+     * @return score
+     * @throws RedisException
+     */
+    public Double zscore(String key, String member) throws RedisException {
+        ShardedJedis jedis = this.getRedisPool();
+        Double result = null;
+        try {
+            result = jedis.zscore(key.trim(), member.trim());
+        } catch (Exception e) {
+            throw new RedisException(e);
+        } finally {
+            if (jedis != null) {
+                this.shardedJedisPool.returnResource(jedis);
+            }
+        }
+        return result;
+    }
     /**
      * 设置散列
      * @param key
